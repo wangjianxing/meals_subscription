@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_26_023445) do
+ActiveRecord::Schema.define(version: 2020_07_26_055041) do
+
+  create_table "cutoff_jobs", force: :cascade do |t|
+    t.integer "cutoff_id"
+    t.datetime "completed_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "cutoffs", force: :cascade do |t|
     t.string "name"

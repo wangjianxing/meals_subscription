@@ -10,4 +10,6 @@ class Subscription < ApplicationRecord
   has_and_belongs_to_many :meals, join_table: 'subscriptions_meals', dependent: :destroy
 
   validates_presence_of :user_id, :cutoff_id, :deliver_info
+
+  scope :old, ->(cutoff) { cutoff.subscriptions.where('created_at < ?', cutoff.week.begin ) }
 end
