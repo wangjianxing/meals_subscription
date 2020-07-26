@@ -1,6 +1,6 @@
-class CreateCutoffJobs < ActiveRecord::Migration[6.0]
+class CreateGroups < ActiveRecord::Migration[6.0]
   def change
-    create_table :cutoff_jobs do |t|
+    create_table :groups do |t|
       t.integer :cutoff_id
       t.datetime :completed_at
 

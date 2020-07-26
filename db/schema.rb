@@ -10,18 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_26_055041) do
-
-  create_table "cutoff_jobs", force: :cascade do |t|
-    t.integer "cutoff_id"
-    t.datetime "completed_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
+ActiveRecord::Schema.define(version: 2020_07_26_145107) do
 
   create_table "cutoffs", force: :cascade do |t|
     t.string "name"
     t.datetime "off_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.integer "cutoff_id"
+    t.datetime "completed_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 2020_07_26_055041) do
     t.text "deliver_info"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "group_id"
   end
 
   create_table "subscriptions", force: :cascade do |t|

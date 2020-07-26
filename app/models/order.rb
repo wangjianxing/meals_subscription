@@ -5,6 +5,8 @@ class Order < ApplicationRecord
 
   belongs_to :user
   belongs_to :subscription
+  belongs_to :cutoff
+  belongs_to :group, optional: true
   has_many :line_items
 
   validates_uniqueness_of :number
@@ -12,11 +14,12 @@ class Order < ApplicationRecord
 
   before_validation :set_number, on: :create
 
-  def self.create_by_subscription!(subscription)
+  def self.create_by_subscription!(subscription, group_id = nil)
     Order.transaction do
       the_order = subscription.orders.create!(user_id: subscription.user_id, cutoff_id: subscription.cutoff.id, 
                                               cutoff_name: subscription.cutoff.name, deliver_info: subscription.deliver_info,
                                               total_quantity: subscription.meals.size, total: subscription.meals.sum(:price))
+      the_order.update!(group_id: group_id) if group_id.present?
       subscription.meals.each do |meal|
         the_order.line_items.create!(meal_id: meal.id, name: meal.name, price: meal.price, quantity: subscription.subscriptions_meals.find_by(meal_id: meal.id).quantity)
       end
