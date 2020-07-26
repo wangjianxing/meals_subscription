@@ -12,24 +12,43 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :user_id %>
-    <%= form.number_field :user_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :cutoff_id %>
-    <%= form.number_field :cutoff_id %>
+    <%= form.label :cutoff %>
+    <%= form.select :cutoff_id, Cutoff.all.map { |cutoff| [ cutoff.name, cutoff.id ] } %>
   </div>
 
   <div class="field">
     <%= form.label :state %>
-    <%= form.number_field :state %>
+    <%= form.select :state, Subscription.states.map { |key, value| [ key, key ] } %>
   </div>
 
-  <div class="field">
+<div class="field">
     <%= form.label :deliver_info %>
-    <%= form.text_area :deliver_info %>
-  </div>
+    <ul>
+    <%= form.fields_for :deliver_info do |addresses_form| %>
+      <li>
+        <%= addresses_form.label :full_name %>
+        <%= addresses_form.text_field :full_name %>
+      </li>
+      <li>
+        <%= addresses_form.label :address %>
+        <%= addresses_form.text_field :address %>
+      </li>
+      <li>
+        <%= addresses_form.label :postcode %>
+        <%= addresses_form.text_field :postcode %>
+      </li>
+      <li>
+        <%= addresses_form.label :phone %>
+        <%= addresses_form.text_field :phone %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
+<div class="field">
+  <%= form.label :meals %>
+  <%= form.collection_check_boxes :meal_ids, Meal.all, :id, :name %>
+</div>
 
   <div class="actions">
     <%= form.submit %>

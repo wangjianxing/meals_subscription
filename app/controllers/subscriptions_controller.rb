@@ -25,9 +25,11 @@ class SubscriptionsController < ApplicationController
   # POST /subscriptions.json
   def create
     @subscription = Subscription.new(subscription_params)
+    @subscription.user = current_user
 
     respond_to do |format|
       if @subscription.save
+        Order.create_by_subscription!(@subscription)
         format.html { redirect_to @subscription, notice: 'Subscription was successfully created.' }
         format.json { render :show, status: :created, location: @subscription }
       else
@@ -69,6 +71,6 @@ class SubscriptionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def subscription_params
-      params.require(:subscription).permit(:user_id, :cutoff_id, :state, :deliver_info)
+      params.require(:subscription).permit(:cutoff_id, :state, meal_ids: [], deliver_info: [:full_name, :address, :postcode, :phone])
     end
 end
